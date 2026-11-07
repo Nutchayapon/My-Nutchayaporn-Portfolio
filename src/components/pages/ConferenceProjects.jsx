@@ -46,7 +46,7 @@ export default class ConferenceProjects extends React.Component {
         <span className="num serif" aria-hidden="true">01</span>
         <div className="award">
           <svg className="rosette" viewBox="0 0 64 84" aria-hidden="true"><path d="M20 44 L13 80 L23 73 L29 83 L34 48Z" fill="#7E1715"></path><path d="M44 44 L51 80 L41 73 L35 83 L30 48Z" fill="#A3221F"></path><path d="M32.0 6.0A5.3 5.3 0 0 1 42.4 8.4A5.3 5.3 0 0 1 50.8 15.0A5.3 5.3 0 0 1 55.4 24.7A5.3 5.3 0 0 1 55.4 35.3A5.3 5.3 0 0 1 50.8 45.0A5.3 5.3 0 0 1 42.4 51.6A5.3 5.3 0 0 1 32.0 54.0A5.3 5.3 0 0 1 21.6 51.6A5.3 5.3 0 0 1 13.2 45.0A5.3 5.3 0 0 1 8.6 35.3A5.3 5.3 0 0 1 8.6 24.7A5.3 5.3 0 0 1 13.2 15.0A5.3 5.3 0 0 1 21.6 8.4A5.3 5.3 0 0 1 32.0 6.0Z" fill="#A3221F"></path><circle cx="32" cy="30" r="16" fill="#FBF3E6"></circle><path d="M32 22C32.4 26.4 35.6 29.6 40 30C35.6 30.4 32.4 33.6 32 38C31.6 33.6 28.4 30.4 24 30C28.4 29.6 31.6 26.4 32 22Z" fill="#D9A441"></path></svg>
-          <p><strong>Excellent Poster Presentation Award</strong>14th National Phayao Research, University of Phayao</p>
+          <p><strong>Excellent Poster Presentation Award</strong>14th National Phayao Research Conference, University of Phayao</p>
         </div>
         <figure className="shot"><img src="/images/photo-phayao-poster.jpg" alt="Poster session at the 14th National Phayao Research Conference" loading="lazy" /></figure>
       </div>
@@ -71,7 +71,7 @@ export default class ConferenceProjects extends React.Component {
         <span className="num serif" aria-hidden="true">02</span>
         <div className="award">
           <svg className="rosette" viewBox="0 0 64 84" aria-hidden="true"><path d="M20 44 L13 80 L23 73 L29 83 L34 48Z" fill="#7E1715"></path><path d="M44 44 L51 80 L41 73 L35 83 L30 48Z" fill="#A3221F"></path><path d="M32.0 6.0A5.3 5.3 0 0 1 42.4 8.4A5.3 5.3 0 0 1 50.8 15.0A5.3 5.3 0 0 1 55.4 24.7A5.3 5.3 0 0 1 55.4 35.3A5.3 5.3 0 0 1 50.8 45.0A5.3 5.3 0 0 1 42.4 51.6A5.3 5.3 0 0 1 32.0 54.0A5.3 5.3 0 0 1 21.6 51.6A5.3 5.3 0 0 1 13.2 45.0A5.3 5.3 0 0 1 8.6 35.3A5.3 5.3 0 0 1 8.6 24.7A5.3 5.3 0 0 1 13.2 15.0A5.3 5.3 0 0 1 21.6 8.4A5.3 5.3 0 0 1 32.0 6.0Z" fill="#A3221F"></path><circle cx="32" cy="30" r="16" fill="#FBF3E6"></circle><path d="M32 22C32.4 26.4 35.6 29.6 40 30C35.6 30.4 32.4 33.6 32 38C31.6 33.6 28.4 30.4 24 30C28.4 29.6 31.6 26.4 32 22Z" fill="#D9A441"></path></svg>
-          <p><strong>Silver Award</strong>13th Graduate Conference in Applied Mathematics (UAMC2025), King Mongkut’s Institute of Technology Ladkrabang</p>
+          <p><strong>Silver Award</strong>13th Undergraduate Conference in Applied Mathematics (UAMC2025), King Mongkut’s Institute of Technology Ladkrabang</p>
         </div>
         <figure className="shot"><img src="/images/photo-uamc.jpg" alt="Receiving the Silver Award at UAMC 2025" loading="lazy" /></figure>
       </div>
