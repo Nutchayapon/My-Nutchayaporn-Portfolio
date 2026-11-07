@@ -42,10 +42,3 @@ src/
   components/pages/*.jsx      เนื้อหา + ลูกเล่นของแต่ละหน้า (React)
   styles/*.css                สไตล์ของแต่ละหน้า (ชื่อเดียวกับ component)
 ```
-
-## หมายเหตุทางเทคนิค
-
-- หน้าที่มีลูกเล่น (Home, Intro, Experience, Skills) ใช้ React แบบ `client:load`; หน้าอื่นเป็น HTML ล้วน ไม่มี JavaScript
-- Intro กุหลาบในหน้า Home เล่นครั้งแรกที่เข้าเว็บในแท็บนั้น (จำด้วย `sessionStorage`) กลับมาหน้า Home อีกครั้งจะไม่เล่นซ้ำ
-- ฟอนต์ Instrument Serif + Newsreader ติดตั้งผ่าน npm (`@fontsource/*`) ไม่ต้องโหลดจาก Google Fonts
-- ผู้ใช้ที่ตั้งค่า "ลดการเคลื่อนไหว" (reduced motion) จะเห็นหน้าแบบไม่มีแอนิเมชัน
