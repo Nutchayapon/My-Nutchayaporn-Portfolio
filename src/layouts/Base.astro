@@ -1,0 +1,38 @@
+---
+// Shared <head> for every page: fonts, meta tags, favicon.
+// Fonts are self-hosted from npm (no Google Fonts request): Instrument Serif + Newsreader.
+import '@fontsource/instrument-serif/400.css';
+import '@fontsource/instrument-serif/400-italic.css';
+import '@fontsource/newsreader/400.css';
+import '@fontsource/newsreader/500.css';
+import '@fontsource/newsreader/600.css';
+import '@fontsource/newsreader/400-italic.css';
+interface Props { title: string; description?: string }
+const {
+  title,
+  description = 'Portfolio of Nutchayaporn Kuntarosd — B.Sc. Statistics (Chiang Mai University): data analysis, machine learning and AI projects, experience, skills and certificates.',
+} = Astro.props;
+const ogImage = new URL('/images/og-cover.png', Astro.site ?? Astro.url).href;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <!-- the rose intro on the Home page plays once per visit (browser tab); this hides it straight away on later visits -->
+    <script is:inline>
+      try { if (sessionStorage.getItem('introSeen') === '1') document.documentElement.classList.add('intro-seen'); } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,224 @@
+import React from 'react';
+
+// Converted from the Claude Design board "Main.dc.html".
+// Markup = render(); behaviour = the methods below (same logic as in Claude Design).
+export default class Home extends React.Component {
+  static defaultProps = {"intro": true, "folder": "animate"};
+
+  componentDidMount() {
+    const reduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // a board taller than any real screen (the 2380px canvas artboard) skips the intro — the "Page 0 — Intro" board plays it at 1440×900
+    const tall = typeof window !== 'undefined' && window.innerHeight > 1300;
+    // on the real site the intro plays once per visit (browser tab), not every time you come back to Home
+    let seen = false;
+    try { seen = sessionStorage.getItem('introSeen') === '1'; sessionStorage.setItem('introSeen', '1'); } catch (e) {}
+    if (reduce || tall || seen) this.setState({ introDone: true, heroGo: true });
+    else {
+      this._goT = setTimeout(() => this.setState({ heroGo: true }), 3100);
+      this._introT = setTimeout(() => this.setState({ introDone: true }), 4150);
+    }
+    this._fallback = setTimeout(() => {
+      if (this._observing) return;
+      const next = { ctaIn: true, footIn: true };
+      if ((this.props.folder ?? 'animate') === 'animate') next.open = true;
+      this.setState(next);
+    }, 1200);
+  }
+  componentWillUnmount() {
+    clearTimeout(this._fallback);
+    clearTimeout(this._introT);
+    clearTimeout(this._goT);
+    Object.values(this._ios || {}).forEach((io) => io.disconnect());
+  }
+  _watch(key, threshold) {
+    this._refs = this._refs || {};
+    if (!this._refs[key]) {
+      this._refs[key] = (el) => {
+        if (!el || typeof IntersectionObserver === 'undefined') return;
+        this._ios = this._ios || {};
+        if (this._ios[key]) return;
+        if (key === 'open' && (this.props.folder ?? 'animate') !== 'animate') return;
+        this._observing = true;
+        const io = new IntersectionObserver((entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            this.setState({ [key]: true });
+            io.disconnect();
+          }
+        }, { threshold });
+        this._ios[key] = io;
+        io.observe(el);
+      };
+    }
+    return this._refs[key];
+  }
+  renderVals() {
+    const mode = this.props.folder ?? 'animate';
+    const st = this.state || {};
+    const open = mode === 'open' ? true : !!st.open;
+    const showIntro = (this.props.intro ?? true) && !st.introDone;
+    return {
+      showIntro,
+      introCls: showIntro && !st.heroGo ? 'intro-on' : '',
+      skipIntro: () => { clearTimeout(this._introT); clearTimeout(this._goT); this.setState({ heroGo: true, introDone: true }); },
+      folderCls: open ? 'open' : '',
+      ctaCls: st.ctaIn ? 'in' : '',
+      footCls: st.footIn ? 'in' : '',
+      setFolder: this._watch('open', 0.35),
+      setCta: this._watch('ctaIn', 0.3),
+      setFoot: this._watch('footIn', 0.15)
+    };
+  }
+
+  render() {
+    const v = this.renderVals ? this.renderVals() || {} : {};
+    return (
+<>
+<main className={`paper ${v.introCls ?? ""}`}>
+
+{v.showIntro && (<>
+<div className="intro" role="presentation">
+  <div className="cam">
+  <img className="garden" src="/images/intro-garden.jpg" alt="" />
+  <span className="spk" style={{ left: "9%", top: "4%", animationDelay: "0s" }}></span><span className="spk" style={{ left: "24%", top: "9%", animationDelay: ".5s" }}></span><span className="spk" style={{ left: "61%", top: "6%", animationDelay: ".9s" }}></span><span className="spk" style={{ left: "73%", top: "3%", animationDelay: ".2s" }}></span><span className="spk" style={{ left: "88%", top: "11%", animationDelay: ".7s" }}></span><span className="spk" style={{ left: "92%", top: "25%", animationDelay: "1.1s" }}></span><span className="spk" style={{ left: "41%", top: "15%", animationDelay: "1.3s" }}></span><span className="spk" style={{ left: "80%", top: "18%", animationDelay: ".35s" }}></span>
+  <div className="focal"><div className="focal-in"><svg className="rose" viewBox="0 0 833 780" aria-hidden="true"><path fill="#4E0C0B" d="M394 768C348 765 329 760 299 746C269 731 256 722 249 712C247 708 242 702 238 698C228 687 224 677 224 670C225 664 225 664 220 659L215 655L198 654C176 653 173 651 166 638C164 634 160 626 156 622C152 617 146 608 142 602C133 586 129 582 115 568C93 546 86 542 66 537C49 532 29 524 26 520C20 514 16 502 17 492C17 488 16 481 15 474C14 467 13 459 13 456C10 437 25 415 45 408C48 407 51 405 54 402L59 398L56 393C51 384 47 373 46 364C45 359 42 349 40 342C39 335 37 325 36 320C34 297 33 293 29 277C20 247 20 243 26 229C31 217 34 213 43 203C57 189 67 177 78 164C83 158 92 149 97 144C101 139 109 130 115 124C127 108 141 98 171 83C198 69 223 65 244 70C249 71 260 73 268 75C286 79 286 78 294 86L300 92L305 87L310 82L308 80C303 73 320 48 337 37C359 24 402 15 449 13C475 12 477 12 483 14C487 15 494 16 499 17C509 18 512 19 527 30C533 33 540 38 542 39C548 42 579 63 592 73C632 102 642 113 655 139C658 145 662 151 664 154L668 158L674 152C685 141 699 143 732 160C752 170 758 175 773 197C793 227 803 257 805 290C806 311 806 312 815 331C825 352 825 357 815 383C805 410 803 419 799 455C795 492 785 514 761 537L750 548L753 552C761 560 760 569 745 601C729 636 716 649 670 676C650 688 649 689 634 706C611 732 552 754 494 758C471 760 469 760 465 763C463 765 461 766 460 766C451 768 411 769 394 768Z"></path><path className="pt" style={{ "--i": "0" }} fill="#7E1715" d="M449 477C437 474 427 473 414 472C403 471 400 470 390 466C384 464 375 460 369 459C359 456 353 452 343 444C341 443 336 439 332 438C320 430 311 419 312 410C312 405 315 404 328 410C341 415 348 415 374 414C400 412 462 405 471 402C478 401 494 394 502 389C516 381 520 377 526 368C531 358 532 358 535 360C539 362 540 366 539 376C538 396 529 418 516 433C513 436 508 443 505 447C498 459 490 466 472 475C465 478 457 479 449 477Z"></path><path className="pt" style={{ "--i": "1" }} fill="#821817" d="M343 403C324 402 320 401 319 398C319 391 323 383 329 379C331 377 334 373 336 370C342 360 356 347 375 336C392 325 398 324 422 328C441 330 444 331 442 336C441 339 440 339 433 342C419 347 407 354 405 359C403 361 400 365 398 368C392 374 391 376 388 387C387 392 385 397 384 398C380 404 371 405 343 403Z"></path><path className="pt" style={{ "--i": "2" }} fill="#871A19" d="M540 448C540 448 541 444 542 440C550 417 546 370 533 331L530 323L529 331C529 336 528 342 527 345L525 351L520 351C517 351 512 350 507 347C502 345 499 344 499 344C499 344 502 347 506 350C516 358 517 360 510 368C508 371 505 375 503 377C500 383 497 384 485 386C480 387 473 389 470 390C462 393 455 395 441 398C434 399 425 401 421 402C412 405 403 405 399 403C397 402 396 402 395 403C393 405 392 398 394 394C395 392 396 388 397 384C401 370 412 360 430 351C457 338 456 338 467 338C474 338 479 338 484 339C487 340 490 340 490 340C491 340 476 333 465 330C433 318 408 318 380 327C364 332 359 336 350 345C335 360 327 372 319 388C314 398 313 399 309 396C306 392 308 370 314 341C317 325 323 312 333 300C343 286 375 264 394 258C408 253 414 254 432 263C438 266 446 270 452 271C485 281 492 283 505 295C516 304 521 310 526 316C529 321 529 320 526 308C516 279 487 235 466 219C445 203 412 191 393 191C385 191 381 189 381 186C380 184 381 183 383 183C385 182 388 180 390 179C397 174 400 173 420 173C436 173 440 174 450 176C472 181 490 188 498 196C500 198 507 202 513 206C526 215 531 218 537 227C546 238 566 255 586 269C596 275 612 284 616 285C620 286 619 289 609 305C598 324 578 383 575 408C573 421 571 429 567 433C561 439 540 451 540 448Z"></path><path className="pt" style={{ "--i": "3" }} fill="#8B1B1A" d="M488 475C484 473 490 465 501 457C511 450 527 427 534 411C536 407 537 404 538 404C541 404 541 422 539 432C538 435 537 442 536 448C534 460 534 459 517 465C511 467 503 469 501 470C494 474 489 475 488 475Z"></path><path className="pt" style={{ "--i": "4" }} fill="#901C1C" d="M300 419C299 418 297 417 296 417C292 416 278 391 272 372C269 365 264 355 261 348C236 302 224 271 226 257C227 253 228 251 236 243C241 237 248 230 251 226C265 210 298 195 330 192C348 189 376 191 396 197C402 198 409 200 410 200C416 200 416 205 410 208C404 212 405 212 413 209C426 205 435 206 449 215C454 218 458 222 462 226C465 230 471 236 475 239C486 248 489 252 495 262C500 269 501 271 501 276C501 282 499 283 493 278C489 274 483 272 470 266C465 264 457 261 453 259C447 257 440 254 430 252C422 251 414 249 413 249C407 247 401 247 394 250C385 253 374 259 370 263C362 269 354 270 354 265C354 259 359 253 371 243C376 239 383 232 386 229C389 225 394 220 397 218C400 215 403 214 402 214C399 214 388 221 380 229C375 233 366 241 360 247C340 265 329 285 317 319C307 348 304 367 305 397C305 413 305 417 304 419C302 421 301 421 300 419Z"></path><path className="pt" style={{ "--i": "5" }} fill="#941D1E" d="M284 590C270 583 255 574 243 566C232 559 230 557 211 535C202 524 192 510 187 500C181 488 170 460 171 457C171 454 176 454 178 458C179 459 183 462 187 464C190 467 195 470 197 471C214 486 249 498 283 500C304 502 409 501 415 499C418 498 425 497 432 496C456 491 471 487 485 481C491 477 509 471 524 466C538 461 553 456 556 454C564 451 564 451 565 453C566 454 564 456 562 459C560 461 554 469 550 477C535 502 513 520 478 536C470 540 464 545 458 556C453 565 447 573 445 573C444 573 442 571 440 570C435 566 431 565 422 565C410 565 405 567 367 582C345 592 341 593 322 594C293 595 294 595 284 590Z"></path><path className="pt" style={{ "--i": "6" }} fill="#981E20" d="M306 496C304 496 299 494 295 493C290 492 282 491 272 491C254 490 236 486 227 481C216 475 209 472 201 468C187 463 175 450 164 426C155 409 153 402 153 389C153 374 155 362 158 355C160 351 160 349 159 347C157 342 172 316 203 276C206 271 210 265 212 263C217 257 219 257 220 267C222 279 226 289 244 325C256 349 261 359 262 366C266 381 269 387 275 399C279 409 281 412 286 416C296 425 312 435 336 448C340 450 346 454 350 457C371 471 389 476 429 479C449 480 451 480 451 483C451 485 449 486 446 487C444 487 440 488 436 489C426 492 417 493 384 495C357 496 313 497 306 496Z"></path><path className="pt" style={{ "--i": "7" }} fill="#9D2022" d="M497 564C494 564 490 563 487 561C481 558 471 551 471 549C471 547 479 541 486 538C507 531 553 492 564 473C569 463 577 440 576 437C575 434 576 432 579 427C585 417 589 399 593 372C595 350 606 324 618 312C625 304 630 297 630 293C630 293 626 289 621 285C611 278 605 273 598 264C595 260 586 252 580 246C573 241 561 229 554 222C529 195 505 181 472 173C450 168 439 166 433 166C425 166 409 168 391 173C377 176 374 177 373 179C372 182 369 183 356 183C333 184 317 187 301 195C294 198 285 202 279 204C249 215 247 216 231 233C224 241 213 251 208 255C192 268 184 277 172 297C157 322 153 335 151 362C151 367 150 373 149 376C149 380 149 382 150 385C152 392 147 394 142 389C136 381 134 367 133 331C132 286 132 277 139 250C148 213 153 205 190 164C207 145 210 142 233 127C259 110 262 108 280 100C288 96 300 89 308 85L322 78L313 78C308 78 305 78 304 77C304 70 315 53 326 43C338 32 351 26 377 20C406 13 418 12 449 11C474 10 476 10 482 11C486 13 493 14 498 14C509 16 512 17 527 27C532 31 539 35 542 37C549 40 586 66 602 78C638 106 646 115 661 148C675 179 678 197 674 235C673 244 672 252 671 252C671 253 669 254 667 254C661 254 658 249 649 232C640 213 636 208 622 196C615 190 607 182 600 174C587 159 583 154 566 138C558 130 551 123 548 119C546 115 540 108 535 103C525 93 521 85 518 73C516 68 514 61 513 57C511 51 511 50 509 51C493 55 470 58 447 58C433 58 428 58 417 60C402 63 387 65 371 67C364 67 357 68 354 69L349 71L359 71C365 72 374 71 380 70C385 69 393 68 396 68C399 67 416 66 435 65C453 64 469 63 471 63C473 63 479 62 486 62C497 61 498 60 500 58C503 54 505 57 505 66C505 79 513 98 521 104C526 107 533 115 538 122C540 126 547 133 553 138C559 143 568 152 574 159C579 165 594 181 607 193C621 206 632 217 634 219C637 223 655 259 657 265C660 273 660 281 662 308C663 349 667 363 679 380C683 385 682 387 675 395C667 403 661 415 653 438C642 470 628 494 607 516C592 531 580 539 560 546C554 549 545 553 538 556C524 564 511 566 497 564Z"></path><path className="pt" style={{ "--i": "8" }} fill="#A12124" d="M444 642C429 639 421 635 416 630C413 627 408 623 405 621C391 611 388 608 385 594C381 580 382 575 388 578C389 579 391 579 396 576C406 570 420 568 429 571C450 579 451 579 459 571C466 563 470 562 476 564C488 569 491 570 500 570C518 572 537 569 554 561C563 557 590 541 599 534C611 525 621 514 634 496C640 488 643 482 654 459C665 435 667 431 675 422C691 403 692 397 681 376C672 357 671 352 670 327C669 307 668 297 665 282C663 274 664 273 668 275C672 276 676 280 681 286C683 289 688 295 691 299C709 318 715 339 716 377C717 400 716 405 711 447C705 486 705 493 710 503C713 509 713 510 708 517C704 523 696 529 684 538C671 547 638 573 616 593C597 610 592 614 572 623C542 638 525 643 497 643C487 643 473 644 467 644C456 644 453 644 444 642Z"></path><path className="pt" style={{ "--i": "9" }} fill="#A62226" d="M273 663C266 662 255 660 248 659C241 658 224 657 208 656C187 655 180 654 178 653C173 650 168 645 164 637C162 633 157 626 154 621C150 616 144 607 140 601C131 586 127 581 114 568C101 556 88 546 82 543C79 542 72 540 66 538C46 532 29 525 24 521C17 513 13 502 14 491C15 487 14 481 13 473C9 449 9 444 15 433C21 419 39 405 49 405C54 405 55 407 63 430C70 450 80 470 86 477C88 479 93 483 97 486C114 498 118 501 125 511C145 537 166 549 209 562C219 565 226 567 236 573C243 576 252 580 255 581C258 582 267 586 276 590C292 598 302 601 319 604C330 606 335 606 345 604C365 600 378 603 386 614C388 617 390 620 391 620C393 622 391 627 384 634C371 647 359 653 328 661C314 665 292 665 273 663Z"></path><path className="pt" style={{ "--i": "10" }} fill="#AA2427" d="M393 769C347 766 329 762 299 747C268 732 255 723 248 713C245 709 240 702 236 698C221 681 217 666 226 662C230 660 249 663 259 667C271 672 283 673 302 672C329 670 350 665 372 656C399 644 404 643 425 647C450 652 487 655 503 653C506 652 516 651 526 650C535 648 546 647 550 645C569 639 599 619 621 598C632 587 635 585 639 585C640 585 643 584 644 583C646 582 648 581 653 582C685 585 698 583 725 572C733 569 734 567 741 556C745 548 749 547 754 551C763 558 761 568 747 601C731 636 716 650 669 678C648 691 647 691 641 699C634 709 629 713 617 722C589 741 540 756 499 759C472 761 464 763 464 765C464 767 460 768 453 769C440 770 407 770 393 769Z"></path><path className="pt" style={{ "--i": "11" }} fill="#AF2529" d="M185 547C179 545 174 541 165 535C162 533 157 529 153 527C145 523 136 514 126 500C121 494 113 484 106 477C88 457 82 450 78 437C77 434 75 429 72 425C70 420 64 411 60 403C49 385 45 375 43 363C42 358 40 348 38 342C36 335 34 325 34 320C31 297 30 292 26 277C21 258 18 245 19 240C20 236 27 221 30 215C32 213 36 207 40 203C54 188 65 176 75 164C81 157 89 148 94 144C98 140 106 132 110 126C124 108 129 104 150 92C182 73 200 67 222 66C233 65 236 66 244 67C249 69 260 71 268 73C285 76 292 79 292 83C292 84 279 89 272 91C269 93 263 95 260 97C257 99 246 105 236 110C215 120 207 126 190 143C175 159 168 168 160 181C157 187 152 195 148 200C135 217 123 246 118 273C112 307 116 356 127 384C129 390 133 399 134 404C138 417 139 420 147 434C151 441 156 451 157 455C159 461 163 468 168 477C172 484 180 498 185 508C194 527 195 529 203 534C209 538 210 541 208 545C207 548 207 548 198 548C191 548 188 548 185 547Z"></path><path className="pt" style={{ "--i": "12" }} fill="#B3262B" d="M670 569C664 566 664 566 679 555C697 542 713 523 719 509C722 500 722 497 719 487C716 478 718 459 722 437C727 410 728 401 727 381C726 365 725 363 722 351C719 344 716 333 715 325C710 304 707 299 691 282C675 265 674 260 679 239C684 220 686 209 686 197C686 184 684 179 679 169C673 158 673 148 678 145C688 140 704 144 732 158C752 168 759 174 774 197C795 227 805 257 807 290C807 310 808 311 816 330C826 352 826 356 816 383C806 409 804 419 800 455C798 477 796 485 789 500C777 526 762 540 734 554C711 566 680 573 670 569Z"></path></svg></div></div>
+  </div>
+  <svg className="bee" viewBox="0 0 60 60" aria-hidden="true"><g className="wt"><ellipse cx="26" cy="16" rx="9" ry="13" fill="#FFFFFF" fillOpacity=".7" stroke="#C9C2B0" strokeWidth="1"></ellipse></g><g className="wb"><ellipse cx="26" cy="44" rx="9" ry="13" fill="#FFFFFF" fillOpacity=".7" stroke="#C9C2B0" strokeWidth="1"></ellipse></g><path d="M12 30L17 27V33Z" fill="#5A3A1E"></path><ellipse cx="30" cy="30" rx="15" ry="9" fill="#F7E26B"></ellipse><path d="M24 21.8V38.2M30.5 21V39M37 22.6V37.4" stroke="#5A3A1E" strokeWidth="3.2"></path><circle cx="46" cy="30" r="6" fill="#3B2614"></circle></svg>
+  <button className="skip serif" type="button" onClick={v.skipIntro}>Skip intro</button>
+</div>
+</>)}
+
+<header className="hero">
+  <div className="hero-mark">
+    <img className="rib-l" src="/images/ribbon-left.png" alt="" aria-hidden="true" />
+    <h1 className="hero-title serif" style={{ fontSize: "clamp(64px, 12.5vw, 180px)" }}>PORTFOLIO</h1>
+    <img className="rib-r" src="/images/ribbon-right.png" alt="" aria-hidden="true" />
+    <svg className="spark" style={{ left: "-13%", top: "-38%", width: "22px", height: "22px", animationDelay: "1.4s" }} viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+    <svg className="spark red" style={{ left: "1%", top: "-78%", width: "13px", height: "13px", animationDelay: "2.1s" }} viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+    <svg className="spark" style={{ left: "22%", top: "-64%", width: "16px", height: "16px", animationDelay: "2.7s" }} viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+    <svg className="spark" style={{ right: "-21%", top: "122%", width: "20px", height: "20px", animationDelay: "1.8s" }} viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+    <svg className="spark red" style={{ right: "-26%", top: "86%", width: "11px", height: "11px", animationDelay: "2.5s" }} viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+    <svg className="spark" style={{ right: "-5%", top: "104%", width: "13px", height: "13px", animationDelay: "3.2s" }} viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+  </div>
+  <div className="badge">
+  <div className="badge-in">
+    <svg className="badge-shape" viewBox="0 0 300 210" aria-hidden="true"><path d="M278.0 105.0A9.3 9.3 0 0 1 275.2 123.3A9.7 9.7 0 0 1 266.9 140.8A10.4 10.4 0 0 1 253.6 156.7A11.3 11.3 0 0 1 235.6 170.4A12.1 12.1 0 0 1 214.0 181.2A12.8 12.8 0 0 1 189.6 188.7A13.2 13.2 0 0 1 163.4 192.5A13.4 13.4 0 0 1 136.6 192.5A13.2 13.2 0 0 1 110.4 188.7A12.8 12.8 0 0 1 86.0 181.2A12.1 12.1 0 0 1 64.4 170.4A11.3 11.3 0 0 1 46.4 156.7A10.4 10.4 0 0 1 33.1 140.8A9.7 9.7 0 0 1 24.8 123.3A9.3 9.3 0 0 1 22.0 105.0A9.3 9.3 0 0 1 24.8 86.7A9.7 9.7 0 0 1 33.1 69.2A10.4 10.4 0 0 1 46.4 53.3A11.3 11.3 0 0 1 64.4 39.6A12.1 12.1 0 0 1 86.0 28.8A12.8 12.8 0 0 1 110.4 21.3A13.2 13.2 0 0 1 136.6 17.5A13.4 13.4 0 0 1 163.4 17.5A13.2 13.2 0 0 1 189.6 21.3A12.8 12.8 0 0 1 214.0 28.8A12.1 12.1 0 0 1 235.6 39.6A11.3 11.3 0 0 1 253.6 53.3A10.4 10.4 0 0 1 266.9 69.2A9.7 9.7 0 0 1 275.2 86.7A9.3 9.3 0 0 1 278.0 105.0Z" fill="#FBF0A9" stroke="#BCD3EA" strokeWidth="12" strokeLinejoin="round"></path><path d="M278.0 105.0A9.3 9.3 0 0 1 275.2 123.3A9.7 9.7 0 0 1 266.9 140.8A10.4 10.4 0 0 1 253.6 156.7A11.3 11.3 0 0 1 235.6 170.4A12.1 12.1 0 0 1 214.0 181.2A12.8 12.8 0 0 1 189.6 188.7A13.2 13.2 0 0 1 163.4 192.5A13.4 13.4 0 0 1 136.6 192.5A13.2 13.2 0 0 1 110.4 188.7A12.8 12.8 0 0 1 86.0 181.2A12.1 12.1 0 0 1 64.4 170.4A11.3 11.3 0 0 1 46.4 156.7A10.4 10.4 0 0 1 33.1 140.8A9.7 9.7 0 0 1 24.8 123.3A9.3 9.3 0 0 1 22.0 105.0A9.3 9.3 0 0 1 24.8 86.7A9.7 9.7 0 0 1 33.1 69.2A10.4 10.4 0 0 1 46.4 53.3A11.3 11.3 0 0 1 64.4 39.6A12.1 12.1 0 0 1 86.0 28.8A12.8 12.8 0 0 1 110.4 21.3A13.2 13.2 0 0 1 136.6 17.5A13.4 13.4 0 0 1 163.4 17.5A13.2 13.2 0 0 1 189.6 21.3A12.8 12.8 0 0 1 214.0 28.8A12.1 12.1 0 0 1 235.6 39.6A11.3 11.3 0 0 1 253.6 53.3A10.4 10.4 0 0 1 266.9 69.2A9.7 9.7 0 0 1 275.2 86.7A9.3 9.3 0 0 1 278.0 105.0Z" fill="#FBF0A9" stroke="#FFFFFF" strokeWidth="5" strokeLinejoin="round"></path><ellipse className="badge-stitch" cx="150" cy="105" rx="112" ry="70" fill="none" stroke="#9DBEDD" strokeWidth="2.5" strokeDasharray="10 7" strokeLinecap="round"></ellipse></svg>
+    <p className="serif"><span className="sr">Nutchayaporn Kuntarosd</span><span aria-hidden="true"><span className="bc" style={{ "--i": "0" }}>N</span><span className="bc" style={{ "--i": "1" }}>u</span><span className="bc" style={{ "--i": "2" }}>t</span><span className="bc" style={{ "--i": "3" }}>c</span><span className="bc" style={{ "--i": "4" }}>h</span><span className="bc" style={{ "--i": "5" }}>a</span><span className="bc" style={{ "--i": "6" }}>y</span><span className="bc" style={{ "--i": "7" }}>a</span><span className="bc" style={{ "--i": "8" }}>p</span><span className="bc" style={{ "--i": "9" }}>o</span><span className="bc" style={{ "--i": "10" }}>r</span><span className="bc" style={{ "--i": "11" }}>n</span><br /><span className="bc" style={{ "--i": "12" }}>K</span><span className="bc" style={{ "--i": "13" }}>u</span><span className="bc" style={{ "--i": "14" }}>n</span><span className="bc" style={{ "--i": "15" }}>t</span><span className="bc" style={{ "--i": "16" }}>a</span><span className="bc" style={{ "--i": "17" }}>r</span><span className="bc" style={{ "--i": "18" }}>o</span><span className="bc" style={{ "--i": "19" }}>s</span><span className="bc" style={{ "--i": "20" }}>d</span></span></p>
+  </div>
+    <svg className="spark" style={{ left: "-6%", top: "6%", width: "18px", height: "18px", animationDelay: "2.2s" }} viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+    <svg className="spark red" style={{ right: "-5%", top: "18%", width: "12px", height: "12px", animationDelay: "3s" }} viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+    <svg className="spark" style={{ right: "2%", bottom: "-4%", width: "15px", height: "15px", animationDelay: "1.6s" }} viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+  </div>
+</header>
+
+<section className="gtk" aria-labelledby="gtk-title">
+  <div className={`folder ${v.folderCls ?? ""}`} ref={v.setFolder}>
+    <svg className="f-tab" viewBox="0 0 420 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 100V32C0 14 14 0 32 0H252C272 0 284 6 296 20L322 48C330 56 340 60 354 60H420V100Z" fill="#F0D97F"></path></svg>
+    <div className="f-back" aria-hidden="true"></div>
+    <div className="f-front" aria-hidden="true"></div>
+    <h2 id="gtk-title" className="gtk-title serif">LET’S GET TO KNOW</h2>
+    <div className="cards">
+
+      <article className="card about" style={{ "--r": "-2deg" }}>
+        <svg className="clip" viewBox="0 0 36 84" fill="none" stroke="#A3221F" strokeWidth="3" strokeLinecap="round" aria-hidden="true"><path d="M8 30V70a10 10 0 0 0 20 0V12a8 8 0 0 0-16 0v50a6 6 0 0 0 12 0V26"></path></svg>
+        <h3 className="serif">ABOUT ME</h3>
+        <div className="about-row">
+          <p>I use statistics to find patterns in data and explain what they mean</p>
+          <img className="stamp" src="/images/portrait-stamp.png" alt="Portrait of Nutchayaporn Kuntarosd" />
+        </div>
+      </article>
+
+      <article className="card edu" style={{ "--r": "1deg" }}>
+        <div className="edu-in">
+          <h3 className="serif">MY EDUCATION</h3>
+          <p>Chiang Mai University</p>
+          <p>B.Sc. in Statistics</p>
+          <p>Second Class Honors</p>
+          <ul>
+            <li>Major Statistics</li>
+            <li>Minor Data Science</li>
+          </ul>
+          <time>June 2022 – March 2026</time>
+        </div>
+      </article>
+
+      <article className="card links" style={{ "--r": "2deg" }} aria-label="Links">
+        <div className="sheet sheet-a" aria-hidden="true"></div>
+        <div className="sheet sheet-b" aria-hidden="true"></div>
+        <div className="kraft-tab" aria-hidden="true"></div>
+        <div className="kraft" aria-hidden="true"></div>
+        <div className="links-body">
+          <a className="btn-cv serif" href="/cv/CV_Nutchayaporn_Kuntarosd.pdf" download="CV_Nutchayaporn_Kuntarosd.pdf">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+            DOWNLOAD MY CV
+          </a>
+          {/* TODO: put your LinkedIn profile URL in href */}
+          <a className="link-row" href="https://www.linkedin.com/in/nutchayaporn-kuntarosd-b94494353">
+            <span className="ico" style={{ background: "#0A66C2" }}><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg></span>
+            <span className="pill serif">MY LINKEDIN</span>
+          </a>
+          {/* TODO: put your GitHub profile URL in href */}
+          <a className="link-row" href="https://github.com/Nutchayapon">
+            <span className="ico" style={{ background: "#1F1A17", borderRadius: "50%" }}><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg></span>
+            <span className="pill serif">MY GITHUB</span>
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section className={`cta-wrap ${v.ctaCls ?? ""}`} aria-label="Explore my work" ref={v.setCta}>
+  <div className="reveal">
+  <a className="cta" href="/explore">
+    <span className="ring" aria-hidden="true"></span>
+    <span className="ring r2" aria-hidden="true"></span>
+    <span className="ring r3" aria-hidden="true"></span>
+    <svg className="oval" viewBox="0 0 320 200" aria-hidden="true"><ellipse cx="160" cy="100" rx="154" ry="94" fill="#F6F1E6" stroke="#FFFFFF" strokeWidth="6"></ellipse><ellipse className="stitch" cx="160" cy="100" rx="140" ry="81" fill="none" stroke="#A3221F" strokeWidth="3.5" strokeDasharray="14 9" strokeLinecap="round"></ellipse></svg>
+    <span className="cta-label serif"><span className="shiny">LET’S<br />EXPLORE</span>
+      <svg className="cta-arrow" width="34" height="14" viewBox="0 0 34 14" fill="none" stroke="#A3221F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M1 7h31"></path><path d="m26 1 6 6-6 6"></path></svg>
+    </span>
+  </a>
+  </div>
+</section>
+
+<footer className={v.footCls} ref={v.setFoot}>
+  <h2 className="contact-tab serif reveal"><span className="shiny-light">CONTACT</span></h2>
+  <div className="contact-band">
+    <ul className="contact-list">
+      <li className="reveal" style={{ transitionDelay: ".15s" }}><a href="mailto:nutchayaporn19@gmail.com"><span className="c-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg></span>nutchayaporn19@gmail.com</a></li>
+      <li className="reveal" style={{ transitionDelay: ".3s" }}><a href="tel:+66800056538"><span className="c-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>+66 80-005-6538</a></li>
+    </ul>
+    <div className="flower-wrap reveal" style={{ transitionDelay: ".45s" }} aria-hidden="true">
+      <span className="orbit o1"></span>
+      <span className="orbit o2"></span>
+      <img className="flower" src="/images/contact-flower.png" alt="" />
+    </div>
+  </div>
+  <div className="marquee serif" aria-hidden="true">
+    <div className="marquee-track">
+      <div className="marquee-group">
+        <span>LET’S WORK TOGETHER</span><svg viewBox="0 0 24 24"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+        <span>nutchayaporn19@gmail.com</span><svg viewBox="0 0 24 24"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+        <span>+66 80-005-6538</span><svg viewBox="0 0 24 24"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+        <span>LET’S WORK TOGETHER</span><svg viewBox="0 0 24 24"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+        <span>nutchayaporn19@gmail.com</span><svg viewBox="0 0 24 24"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+        <span>+66 80-005-6538</span><svg viewBox="0 0 24 24"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+      </div>
+      <div className="marquee-group">
+        <span>LET’S WORK TOGETHER</span><svg viewBox="0 0 24 24"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+        <span>nutchayaporn19@gmail.com</span><svg viewBox="0 0 24 24"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+        <span>+66 80-005-6538</span><svg viewBox="0 0 24 24"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+        <span>LET’S WORK TOGETHER</span><svg viewBox="0 0 24 24"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+        <span>nutchayaporn19@gmail.com</span><svg viewBox="0 0 24 24"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+        <span>+66 80-005-6538</span><svg viewBox="0 0 24 24"><path d="M12 0C12.6 6.6 17.4 11.4 24 12C17.4 12.6 12.6 17.4 12 24C11.4 17.4 6.6 12.6 0 12C6.6 11.4 11.4 6.6 12 0Z"></path></svg>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</main>
+</>
+    );
+  }
+}

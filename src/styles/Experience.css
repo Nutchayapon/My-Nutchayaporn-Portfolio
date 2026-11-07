@@ -1,0 +1,73 @@
+body{margin:0}
+a{color:#4A2416}a:hover{color:#A3221F}
+.paper{background:#F5F2EA url(/images/paper-stripes.jpg) repeat;background-size:688px auto;color:#4A2416;font-family:'Newsreader',Georgia,serif;overflow-x:clip;padding:0 24px 120px}
+.serif{font-family:'Instrument Serif',Georgia,serif;font-weight:400}
+a:focus-visible{outline:3px solid #4A2416;outline-offset:6px;border-radius:14px}
+
+.crumbs{max-width:1180px;margin:0 auto;padding:28px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px}
+.back{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 20px 0 14px;border-radius:999px;background:#F6F1E6;box-shadow:0 0 0 2px #fff,0 10px 22px -16px rgba(74,36,22,.6);text-decoration:none;font-size:22px;color:#4A2416;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.back:hover{transform:translateX(-4px);color:#4A2416}
+.trail{list-style:none;margin:0;padding:10px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;border-radius:999px;background:rgba(251,248,240,.94);font-size:17px}
+.trail li{display:flex;align-items:center;gap:8px}
+.trail li+li::before{content:"/";color:#A3221F}
+.trail a{text-decoration:underline;text-decoration-color:rgba(74,36,22,.35);text-underline-offset:3px}
+.trail [aria-current]{font-weight:600}
+
+.head{max-width:1180px;margin:0 auto;padding:32px 0 80px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:20px 36px}
+.head-art{width:230px;height:auto;animation:pop .9s cubic-bezier(.34,1.56,.64,1) both}
+.head-text{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.tab-title{margin:0;display:inline-flex;align-items:center;min-height:96px;padding:0 52px;border-radius:999px;font-size:clamp(46px,5.6vw,80px);line-height:1;box-shadow:0 0 0 5px rgba(255,255,255,.75),0 24px 44px -26px rgba(74,36,22,.55);animation:blurIn 1s cubic-bezier(.2,.8,.2,1) .15s both}
+.head-meta{margin:0;padding:8px 18px;border-radius:999px;background:rgba(251,248,240,.94);font-style:italic;font-size:19px;animation:blurIn 1s cubic-bezier(.2,.8,.2,1) .3s both}
+
+/* timeline — stitched track; the red "beam" lights the card the pointer is on and stays there after the pointer leaves */
+.tl-wrap{position:relative;max-width:1040px;margin:0 auto;padding-left:104px}
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:64px}
+.track{position:absolute;left:30px;top:0;bottom:0;width:20px;border-radius:10px;background:#FBF6EA;box-shadow:0 0 0 2px #fff;overflow:hidden;transform-origin:50% 0;animation:grow 1.4s cubic-bezier(.2,.8,.2,1) .2s both}
+.track::before{content:"";position:absolute;left:8px;top:8px;bottom:8px;border-left:3px dashed #D9B44A}
+.timeline > li{position:relative;animation:blurUp .9s cubic-bezier(.2,.8,.2,1) both;animation-timeline:view();animation-range:entry 0% entry 55%}
+.node{position:absolute;z-index:1;left:-90px;top:30px;display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:#F7E58E;color:#4A2416;box-shadow:0 0 0 5px #FBF6EA,0 12px 20px -10px rgba(74,36,22,.5);transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+.timeline > li:hover .node{transform:scale(1.12) rotate(-8deg)}
+.seg{position:absolute;z-index:0;left:-71px;top:-32px;bottom:-32px;width:14px;border-radius:7px;background:linear-gradient(180deg,rgba(163,34,31,0),#A3221F 22%,#C8432C 60%,#F4C04E 88%,rgba(244,192,78,0));background-size:100% 160%;opacity:0;transform:scaleY(.35);transition:opacity .45s ease,transform .7s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
+.timeline > li:first-child .seg{top:0}
+.timeline > li:last-child .seg{bottom:0}
+.timeline > li.on .seg,.timeline > li:hover .seg{opacity:1;transform:none;animation:segGlow 2.6s ease-in-out infinite alternate}
+.timeline:has(> li:hover) > li.on:not(:hover) .seg{opacity:0;transform:scaleY(.35);animation:none}
+.timeline > li.on .node,.timeline > li:hover .node{background:#F4C04E}
+.card{background:#FFFDF6;border-radius:28px;padding:10px;box-shadow:0 30px 56px -36px rgba(74,36,22,.6);transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+.timeline > li:hover .card{transform:translateX(8px)}
+.card-in{border:2px dashed #E0C35C;border-radius:20px;padding:30px 36px 32px}
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 16px}
+.pill{display:inline-flex;align-items:center;min-height:34px;padding:0 16px;border-radius:999px;font-size:16px}
+.card h2{margin:0;font-size:clamp(30px,3vw,40px);line-height:1.1;color:#4A2416}
+.org{margin:6px 0 18px;font-style:italic;font-size:21px;color:#A3221F}
+.card ul{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px;font-size:18px;line-height:1.55;color:#4F3022}
+.tags{list-style:none;margin:22px 0 0;padding:0 !important;display:flex !important;flex-direction:row !important;flex-wrap:wrap;gap:10px !important}
+.tags li{display:inline-flex;align-items:center;min-height:34px;padding:0 14px;border-radius:999px;background:#FBF0B8;color:#3D2A1C;font-size:15.5px;line-height:1}
+
+.pager{max-width:1180px;margin:104px auto 0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+.pg{display:inline-flex;align-items:center;gap:12px;min-height:52px;padding:0 24px;border-radius:999px;background:#F6F1E6;box-shadow:0 0 0 2px #fff,0 10px 22px -16px rgba(74,36,22,.6);text-decoration:none;font-size:24px;color:#4A2416;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.pg:hover{transform:translateY(-3px);color:#4A2416}
+
+@keyframes pop{from{opacity:0;transform:scale(.6) rotate(-8deg)}to{opacity:1;transform:none}}
+@keyframes blurIn{from{opacity:0;filter:blur(10px);transform:translateY(16px)}to{opacity:1;filter:blur(0);transform:none}}
+@keyframes blurUp{from{opacity:0;filter:blur(12px);transform:translateY(60px)}to{opacity:1;filter:blur(0);transform:none}}
+@keyframes segGlow{from{background-position:0 0}to{background-position:0 100%}}
+@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+
+@media (max-width:900px){
+.head{flex-direction:column}
+.head-text{align-items:center;text-align:center}
+.head-art{width:180px}
+.tab-title{min-height:76px;padding:0 30px}
+.tl-wrap{padding-left:56px}
+.timeline{gap:48px}
+.track{left:8px;width:16px}
+.track::before{left:6px}
+.node{left:-62px;width:44px;height:44px}
+.seg{left:-46px;width:12px;top:-24px;bottom:-24px}
+.card-in{padding:24px 20px 24px}
+.card ul{font-size:17px}
+}
+@media (prefers-reduced-motion:reduce){
+*,*::before,*::after{animation:none !important;transition:none !important}
+}

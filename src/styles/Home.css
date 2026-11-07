@@ -1,0 +1,192 @@
+body{margin:0}
+a{color:#4A2416}a:hover{color:#A3221F}
+.paper{background:#F5F2EA url(/images/paper-stripes.jpg) repeat;background-size:688px auto;color:#4A2416;font-family:'Newsreader',Georgia,serif;overflow-x:clip}
+.serif{font-family:'Instrument Serif',Georgia,serif;font-weight:400}
+a:focus-visible,button:focus-visible{outline:3px solid #4A2416;outline-offset:4px;border-radius:12px}
+
+/* HERO */
+.hero{position:relative;min-height:760px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;padding:120px 24px 72px;box-sizing:border-box}
+.hero-mark{position:relative;display:inline-block}
+.hero-title{margin:0;font-size:clamp(64px,12.5vw,180px);line-height:.9;letter-spacing:-.005em;color:#4A2416;animation:rise 1.1s cubic-bezier(.2,.8,.2,1) both}
+/* Ribbons — Magic UI "Blur Fade" in, then a slow wind sway; "Sparkles Text" twinkles around them */
+.rib-l{position:absolute;width:50%;left:-27%;top:-104%;pointer-events:none;transform-origin:70% 30%;animation:blurIn 1.3s cubic-bezier(.2,.8,.2,1) .35s both,swayL 5.5s ease-in-out 1.7s infinite}
+.rib-r{position:absolute;width:34%;right:-25%;top:78%;pointer-events:none;transform-origin:8% 8%;animation:blurIn 1.3s cubic-bezier(.2,.8,.2,1) .55s both,swayR 6.5s ease-in-out 1.9s infinite}
+.spark{position:absolute;fill:#D9A441;pointer-events:none;opacity:0;animation:twinkle 2.8s ease-in-out infinite}
+.spark.red{fill:#B33A34}
+/* Name badge — pop in, gentle float, "Text Animate" letters, marching stitch ring, jelly wobble on hover, sparkles */
+.sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.badge{position:relative;width:280px;height:196px;display:grid;place-items:center;transform:rotate(-3deg);animation:pop .9s cubic-bezier(.34,1.56,.64,1) .7s both,float 5.5s ease-in-out 1.8s infinite}
+.badge-in{position:absolute;inset:0;display:grid;place-items:center}
+.badge:hover .badge-in{animation:jelly .8s cubic-bezier(.34,1.56,.64,1)}
+.badge svg.badge-shape{position:absolute;inset:0;width:100%;height:100%}
+.badge-stitch{animation:marchB 1.8s linear infinite}
+.badge:hover .badge-stitch{animation-duration:.6s}
+.badge p{position:relative;margin:0;text-align:center;font-size:34px;line-height:1.08;color:#4A2416}
+.bc{display:inline-block;animation:letterIn .6s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(1.1s + var(--i) * .045s)}
+
+/* LET'S GET TO KNOW — folder */
+.gtk{padding:40px 24px 96px}
+.folder{position:relative;max-width:880px;height:640px;margin:0 auto}
+.f-tab{position:absolute;top:0;left:0;width:420px;height:100px;display:block}
+.f-back{position:absolute;top:60px;left:0;right:0;bottom:0;background:#F0D97F;border-radius:0 36px 36px 36px}
+.f-front{position:absolute;top:100px;left:0;right:0;bottom:0;background:#FBF1A9;border-radius:32px;box-shadow:inset 0 2px 0 rgba(255,255,255,.75),0 50px 80px -46px rgba(74,36,22,.5);transform-origin:50% 100%}
+.open .f-front{animation:flap 1.1s cubic-bezier(.2,.8,.2,1)}
+.gtk-title{position:absolute;left:0;right:0;top:150px;z-index:2;margin:0;text-align:center;font-size:clamp(44px,6vw,80px);line-height:1;color:#4A2416;transform:translateY(176px) scale(1.15);transition:transform 1s cubic-bezier(.2,.8,.2,1) .05s}
+.open .gtk-title{transform:none}
+.cards{position:absolute;left:-104px;right:-104px;bottom:44px;z-index:3;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px;align-items:end}
+.card{position:relative;opacity:0;transform:translateY(90px) scale(.66) rotate(var(--r,0deg));transition:opacity .35s ease,transform .85s cubic-bezier(.34,1.56,.64,1)}
+.open .card{opacity:1;transform:translateY(0) scale(1) rotate(var(--r,0deg))}
+.open .card:nth-child(1){transition-delay:.28s}
+.open .card:nth-child(2){transition-delay:.4s}
+.open .card:nth-child(3){transition-delay:.52s}
+.open .card:hover{transform:translateY(-10px) rotate(0deg);transition-delay:0s}
+.card h3{margin:0 0 12px;font-size:38px;line-height:1;text-align:center;color:#4A2416}
+
+.about{background:#F2EDE3;border-radius:8px;padding:38px 26px 28px;text-align:center;box-shadow:0 22px 44px -24px rgba(74,36,22,.55)}
+.clip{position:absolute;top:-36px;left:22px;width:36px;height:84px}
+.about-row{display:flex;align-items:center;gap:16px;margin-top:6px}
+.about p{margin:0;flex:1;min-width:0;text-align:left;font-size:16.5px;line-height:1.45;color:#5A3627}
+.stamp{display:block;flex:none;width:112px;height:auto;margin:0 -8px 0 0;transform:rotate(4deg)}
+
+.edu{background:#F9F8F3;border-radius:28px;padding:10px;box-shadow:0 22px 44px -24px rgba(74,36,22,.5)}
+.edu-in{border:2px dashed #8DB3DA;border-radius:20px;padding:24px 22px 18px}
+.edu-in p{margin:0;font-size:17px;line-height:1.4;font-weight:600;color:#4A2416}
+.edu-in ul{margin:6px 0 0;padding-left:22px;font-size:16.5px;line-height:1.45;color:#5A3627}
+.edu-in time{display:block;margin-top:22px;text-align:right;font-style:italic;font-size:15px;color:#6B4636}
+
+.links{padding:72px 22px 26px}
+.kraft{position:absolute;inset:26px 0 0 0;z-index:1;background:#D6AF87;border-radius:10px 10px 18px 18px;box-shadow:inset 0 2px 0 rgba(255,255,255,.35),0 22px 44px -24px rgba(74,36,22,.55)}
+.kraft-tab{position:absolute;top:10px;right:22px;z-index:1;width:120px;height:28px;background:#D6AF87;border-radius:12px 12px 0 0}
+.sheet{position:absolute;z-index:0;height:90px;border-radius:6px;transition:transform .6s cubic-bezier(.34,1.56,.64,1)}
+.sheet-a{top:0;left:20px;right:70px;background:#FCFAF5;transform:rotate(-3deg);background-image:repeating-linear-gradient(#FCFAF5 0 13px,#D7E5F2 13px 14px)}
+.sheet-b{top:8px;left:64px;right:26px;background:#F3DCE0;transform:rotate(2.5deg)}
+.links:hover .sheet-a{transform:translateY(-14px) rotate(-5deg)}
+.links:hover .sheet-b{transform:translateY(-8px) rotate(4deg)}
+.links-body{position:relative;z-index:2;display:flex;flex-direction:column;gap:14px}
+.btn-cv{display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 18px;border-radius:999px;background:#A3221F;color:#FBF3E6;text-decoration:none;font-size:22px;box-shadow:0 8px 18px -10px rgba(120,20,20,.8);transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .2s}
+.btn-cv:hover{background:#871A18;color:#FBF3E6;transform:translateY(-2px)}
+.link-row{display:flex;align-items:center;gap:12px;min-height:48px;text-decoration:none;color:#4A2416}
+.ico{flex:none;display:grid;place-items:center;width:42px;height:42px;border-radius:12px;color:#fff}
+.pill{flex:1;display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:999px;background:#FBF6EE;font-size:20px;transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .2s}
+.link-row:hover .pill{background:#fff;transform:translateX(4px)}
+
+/* Blur Fade reveal (Magic UI) — plays when the section scrolls into view */
+.reveal{opacity:0;filter:blur(10px);transform:translateY(22px);transition:opacity .8s ease,filter .8s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
+.in .reveal{opacity:1;filter:blur(0);transform:none}
+
+/* LET'S EXPLORE — "Ripple" + "Pulsating Button" rings, marching stitch border, "Animated Shiny Text" */
+.cta-wrap{display:grid;place-items:center;padding:96px 24px 200px}
+.cta{position:relative;display:grid;place-items:center;width:320px;height:200px;text-decoration:none;color:#4A2416;transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+.ring{position:absolute;inset:8px;border-radius:50%;border:2px solid #A3221F;opacity:0;pointer-events:none;animation:ripple 3.6s cubic-bezier(.2,.6,.3,1) infinite}
+.ring.r2{animation-delay:1.2s}
+.ring.r3{animation-delay:2.4s}
+.cta svg.oval{position:absolute;inset:0;width:100%;height:100%}
+.stitch{animation:march 1.4s linear infinite}
+.cta:hover .stitch{animation-duration:.5s}
+.cta-label{position:relative;text-align:center;font-size:40px;line-height:1.02}
+.shiny{display:block;background:linear-gradient(110deg,#4A2416 38%,#C9824C 50%,#4A2416 62%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 3.4s linear infinite}
+.cta-arrow{display:block;margin:8px auto 0;transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.cta:hover{transform:rotate(-4deg) scale(1.06);color:#4A2416}
+.cta:hover .cta-arrow{transform:translateX(10px)}
+
+/* CONTACT — Blur Fade items, shiny tab, "Orbiting Circles" around the flower, "Marquee" strip */
+.contact-tab{display:inline-block;margin:0 0 0 24px;padding:24px 60px 18px;background:#A3221F;border-radius:24px 24px 0 0;font-size:36px;line-height:1}
+.shiny-light{display:block;background:linear-gradient(110deg,#FBF3E6 38%,#F4C04E 50%,#FBF3E6 62%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 4s linear infinite}
+.contact-band{position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:32px;padding:48px 64px 60px 48px;background:#A3221F}
+.contact-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:18px}
+.contact-list a{display:flex;align-items:center;gap:14px;min-height:44px;color:#FBF3E6;text-decoration:none;font-size:20px}
+.contact-list a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
+.c-ico{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#FBF3E6;color:#A3221F;flex:none;transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.contact-list a:hover .c-ico{transform:scale(1.12) rotate(-10deg)}
+.flower-wrap{position:relative;width:168px;height:168px;display:grid;place-items:center}
+.flower{width:100%;height:auto;animation:spin 40s linear infinite}
+.orbit{position:absolute;border-radius:50%;border:1px dashed rgba(251,243,230,.38);pointer-events:none;animation:spin 14s linear infinite}
+.orbit.o1{inset:-16px}
+.orbit.o2{inset:-38px;animation-duration:22s;animation-direction:reverse}
+.orbit::before{content:"";position:absolute;top:-5px;left:calc(50% - 5px);width:10px;height:10px;border-radius:50%;background:#F4C04E;box-shadow:0 0 12px rgba(244,192,78,.85)}
+.orbit.o2::before{top:-4px;left:calc(50% - 4px);width:8px;height:8px;background:#FBF3E6;box-shadow:0 0 10px rgba(251,243,230,.8)}
+.marquee{overflow:hidden;background:#871A18;border-top:1px dashed rgba(251,243,230,.35);padding:14px 0}
+.marquee-track{display:flex;width:max-content;animation:marquee 30s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-group{display:flex;align-items:center;gap:28px;padding-right:28px;color:#FBF3E6;font-size:26px;white-space:nowrap}
+.marquee-group svg{width:16px;height:16px;fill:#F4C04E;flex:none}
+
+@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes blurIn{from{opacity:0;filter:blur(10px);transform:translateY(-14px) rotate(-8deg) scale(.9)}to{opacity:1;filter:blur(0);transform:none}}
+@keyframes swayL{0%,100%{transform:rotate(0)}50%{transform:rotate(-3.5deg)}}
+@keyframes swayR{0%,100%{transform:rotate(0)}50%{transform:rotate(5deg)}}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(0) rotate(0)}50%{opacity:1;transform:scale(1) rotate(90deg)}}
+@keyframes ripple{0%{transform:scale(.94);opacity:.5}100%{transform:scale(1.5);opacity:0}}
+@keyframes march{to{stroke-dashoffset:-23}}
+@keyframes shine{from{background-position:130% 0}to{background-position:-130% 0}}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@keyframes pop{from{opacity:0;transform:rotate(-3deg) scale(.6)}to{opacity:1;transform:rotate(-3deg) scale(1)}}
+@keyframes flap{0%{transform:perspective(1400px) rotateX(0)}35%{transform:perspective(1400px) rotateX(-16deg)}100%{transform:perspective(1400px) rotateX(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes float{0%,100%{transform:rotate(-3deg) translateY(0)}50%{transform:rotate(1deg) translateY(-9px)}}
+@keyframes jelly{0%{transform:scale(1)}30%{transform:scale(1.12,.88)}50%{transform:scale(.93,1.08)}70%{transform:scale(1.04,.97)}100%{transform:scale(1)}}
+@keyframes marchB{to{stroke-dashoffset:-17}}
+@keyframes letterIn{from{opacity:0;filter:blur(6px);transform:translateY(12px) rotate(-8deg)}to{opacity:1;filter:blur(0);transform:none}}
+
+@media (max-width:1140px) and (min-width:901px){
+.cards{left:-28px;right:-28px;gap:18px}
+.folder{height:680px}
+}
+@media (max-width:900px){
+.hero{min-height:620px;padding-top:96px}
+.folder{height:auto;padding:124px 18px 30px}
+.f-tab{width:100%;max-width:420px}
+.gtk-title{position:relative;top:auto;padding:0 56px;margin-bottom:44px;transform:none}
+.cards{position:relative;left:auto;right:auto;bottom:auto;grid-template-columns:minmax(0,1fr);gap:44px}
+.card{opacity:1;transform:rotate(var(--r,0deg))}
+.contact-band{padding:40px 24px 56px}
+.flower-wrap{width:112px;height:112px;margin:0 auto}
+.marquee-group{font-size:22px}
+}
+/* INTRO — reverse-engineered from the reference clip (frame-tracked with OpenCV, see notes):
+   camera tilts down and pushes in on the rose heart at (48.4%, 67%); the hero rose also rises toward camera;
+   a bee follows the measured flight path and dives into the heart; a lens-shaped opening there reveals PORTFOLIO. */
+@property --hs{syntax:'<length>';inherits:false;initial-value:0px}
+.intro{position:fixed;inset:0;z-index:1000;overflow:hidden;background:#16301C;-webkit-mask:url(/images/intro-hole.svg) calc(49vw - var(--hs) / 2) calc(50vh - var(--hs) / 2)/var(--hs) var(--hs) no-repeat,linear-gradient(#000,#000);-webkit-mask-composite:xor;mask:url(/images/intro-hole.svg) calc(49vw - var(--hs) / 2) calc(50vh - var(--hs) / 2)/var(--hs) var(--hs) no-repeat exclude,linear-gradient(#000,#000);animation:hole .88s cubic-bezier(.45,0,.75,.55) 3.15s forwards}
+.cam{position:absolute;inset:0;transform-origin:48.4% 67%;animation:cam 3.9s linear both}
+.garden{position:absolute;left:0;top:0;width:100%;height:128%;object-fit:cover;object-position:50% 0;animation:soft .78s ease-in 2.86s forwards}
+.focal{position:absolute;left:48.4%;top:67%;height:39vh;aspect-ratio:833/780;translate:-51% -46.8%}
+.focal-in{width:100%;height:100%;transform-origin:51% 46.8%;filter:drop-shadow(0 14px 18px rgba(20,8,6,.45));animation:roseRise 3.9s linear both}
+.rose{display:block;width:100%;height:100%;overflow:visible}
+.pt{transform-box:view-box;transform-origin:425px 365px;animation:unfurl 3.1s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(var(--i) * .06s)}
+.spk{position:absolute;width:5px;height:5px;border-radius:50%;background:#FFFBEA;box-shadow:0 0 8px 2px rgba(255,251,234,.7);animation:twk 1.6s ease-in-out infinite}
+.bee{position:absolute;left:0;top:0;width:clamp(40px,4.4vw,80px);height:auto;translate:-50% -50%;filter:drop-shadow(0 0 6px rgba(255,236,120,.85));animation:beePath 3.5s linear both,beeOut .3s ease 3.4s forwards}
+.wt{transform-box:fill-box;transform-origin:50% 100%;animation:beeFlap .06s linear infinite alternate}
+.wb{transform-box:fill-box;transform-origin:50% 0;animation:beeFlap .06s linear infinite alternate}
+.skip{position:absolute;right:28px;bottom:28px;min-height:44px;padding:0 20px;border:0;border-radius:999px;background:#FBF6EE;color:#4A2416;font-size:19px;cursor:pointer;box-shadow:0 0 0 2px #fff,0 10px 22px -16px rgba(74,36,22,.6)}
+.skip:hover{background:#fff}
+.intro-on .hero,.intro-on .hero *{animation-play-state:paused !important}
+@keyframes hole{to{--hs:340vmax}}
+/* camera: measured background scale + drift of the heart point (bg tracked frame-by-frame, 0–2.4s; extrapolated after) */
+@keyframes cam{0%{transform:none}19%{transform:translate(-.03vw,-9.19vh) scale(1.013)}37.3%{transform:translate(-.16vw,-15.65vh) scale(1.058)}53.3%{transform:translate(-.41vw,-19.08vh) scale(1.152)}60%{transform:translate(-.52vw,-19.91vh) scale(1.22)}66.7%{transform:translate(-.69vw,-20.38vh) scale(1.315)}73.3%{transform:translate(-.94vw,-20.5vh) scale(1.44)}80%{transform:translate(-1.25vw,-20.34vh) scale(1.6)}86.7%{transform:translate(-1.5vw,-20.2vh) scale(1.8)}100%{transform:translate(-2vw,-20vh) scale(2.3)}}
+/* hero rose rising toward camera: measured focal/background scale ratio (anime holds smoothed) */
+@keyframes roseRise{0%{transform:none}24%{transform:scale(1.05)}33.3%{transform:scale(1.12)}43.3%{transform:scale(1.23)}50.7%{transform:scale(1.32)}55%{transform:scale(1.43)}59%{transform:scale(1.58)}62.7%{transform:scale(1.72)}68.3%{transform:scale(1.85)}75%{transform:scale(1.99)}81.7%{transform:scale(2.6)}86.7%{transform:scale(4)}100%{transform:scale(6)}}
+@keyframes soft{to{filter:blur(4px) brightness(.85)}}
+@keyframes unfurl{from{transform:rotate(-10deg) scale(.86)}to{transform:none}}
+@keyframes twk{0%,100%{opacity:.15;transform:scale(.6)}50%{opacity:1;transform:scale(1)}}
+@keyframes beeOut{to{opacity:0}}
+@keyframes beeFlap{to{transform:scaleY(.3)}}
+/* bee: PCHIP spline through 24 tracked positions from the clip, heading follows the path tangent */
+@keyframes beePath{0.0%{transform:translate(26.30vw,69.00vh) rotate(19deg) scale(1.00)}1.9%{transform:translate(29.39vw,70.96vh) rotate(18deg) scale(1.00)}3.7%{transform:translate(32.02vw,72.46vh) rotate(16deg) scale(1.00)}5.6%{transform:translate(34.15vw,73.70vh) rotate(13deg) scale(1.00)}7.4%{transform:translate(36.40vw,74.50vh) rotate(9deg) scale(1.01)}9.3%{transform:translate(39.31vw,74.93vh) rotate(5deg) scale(1.01)}11.1%{transform:translate(42.43vw,75.18vh) rotate(1deg) scale(1.01)}13.0%{transform:translate(45.12vw,75.15vh) rotate(-2deg) scale(1.01)}14.8%{transform:translate(47.56vw,74.90vh) rotate(-6deg) scale(1.01)}16.7%{transform:translate(50.00vw,74.50vh) rotate(-11deg) scale(1.01)}18.5%{transform:translate(52.53vw,73.41vh) rotate(-15deg) scale(1.01)}20.4%{transform:translate(55.10vw,71.62vh) rotate(-19deg) scale(1.02)}22.2%{transform:translate(57.84vw,69.75vh) rotate(-24deg) scale(1.02)}24.1%{transform:translate(60.70vw,67.59vh) rotate(-28deg) scale(1.02)}25.9%{transform:translate(63.23vw,65.11vh) rotate(-35deg) scale(1.02)}27.8%{transform:translate(65.64vw,62.16vh) rotate(-45deg) scale(1.02)}29.6%{transform:translate(67.20vw,59.10vh) rotate(-57deg) scale(1.02)}31.5%{transform:translate(67.88vw,56.03vh) rotate(-69deg) scale(1.02)}33.3%{transform:translate(68.27vw,53.08vh) rotate(-81deg) scale(1.02)}35.2%{transform:translate(68.27vw,50.65vh) rotate(-91deg) scale(1.03)}37.0%{transform:translate(68.12vw,48.55vh) rotate(-100deg) scale(1.03)}38.9%{transform:translate(67.90vw,46.70vh) rotate(-109deg) scale(1.03)}40.7%{transform:translate(67.54vw,45.11vh) rotate(-117deg) scale(1.03)}42.6%{transform:translate(67.00vw,43.68vh) rotate(-125deg) scale(1.03)}44.4%{transform:translate(66.29vw,42.11vh) rotate(-135deg) scale(1.03)}46.3%{transform:translate(65.37vw,40.52vh) rotate(-150deg) scale(1.03)}48.1%{transform:translate(64.92vw,40.10vh) rotate(-161deg) scale(1.04)}50.0%{transform:translate(64.79vw,40.14vh) rotate(-172deg) scale(1.04)}51.9%{transform:translate(64.60vw,40.20vh) rotate(-181deg) scale(1.04)}53.7%{transform:translate(63.20vw,40.34vh) rotate(-191deg) scale(1.04)}55.6%{transform:translate(61.25vw,40.60vh) rotate(-198deg) scale(1.04)}57.4%{transform:translate(60.59vw,40.99vh) rotate(-201deg) scale(1.04)}59.3%{transform:translate(60.30vw,41.61vh) rotate(-203deg) scale(1.04)}61.1%{transform:translate(59.90vw,42.20vh) rotate(-204deg) scale(1.05)}63.0%{transform:translate(58.74vw,42.62vh) rotate(-202deg) scale(1.05)}64.8%{transform:translate(57.20vw,43.03vh) rotate(-199deg) scale(1.05)}66.7%{transform:translate(56.19vw,43.62vh) rotate(-201deg) scale(1.05)}68.5%{transform:translate(55.41vw,44.39vh) rotate(-204deg) scale(1.07)}70.4%{transform:translate(54.63vw,45.15vh) rotate(-206deg) scale(1.08)}72.2%{transform:translate(53.86vw,45.93vh) rotate(-204deg) scale(1.10)}74.1%{transform:translate(53.00vw,46.60vh) rotate(-199deg) scale(1.12)}75.9%{transform:translate(51.85vw,47.22vh) rotate(-193deg) scale(1.13)}77.8%{transform:translate(50.59vw,47.66vh) rotate(-188deg) scale(1.15)}79.6%{transform:translate(49.49vw,47.70vh) rotate(-181deg) scale(1.17)}81.5%{transform:translate(48.47vw,47.70vh) rotate(-169deg) scale(1.18)}83.3%{transform:translate(47.60vw,47.70vh) rotate(-157deg) scale(1.20)}85.2%{transform:translate(46.89vw,46.84vh) rotate(-147deg) scale(1.22)}87.0%{transform:translate(46.28vw,45.25vh) rotate(-134deg) scale(1.23)}88.9%{transform:translate(45.73vw,44.11vh) rotate(-118deg) scale(1.25)}90.7%{transform:translate(45.23vw,43.12vh) rotate(-103deg) scale(1.26)}92.6%{transform:translate(45.13vw,41.95vh) rotate(-86deg) scale(1.26)}94.4%{transform:translate(45.47vw,40.39vh) rotate(-63deg) scale(1.27)}96.3%{transform:translate(46.00vw,39.20vh) rotate(-42deg) scale(1.28)}98.1%{transform:translate(46.77vw,38.54vh) rotate(-28deg) scale(1.29)}100.0%{transform:translate(47.87vw,38.14vh) rotate(-18deg) scale(1.29)}}
+@media (prefers-reduced-motion:reduce){
+.intro{display:none !important}
+.intro-on .hero,.intro-on .hero *{animation-play-state:running !important}
+}
+@media (prefers-reduced-motion:reduce){
+*,*::before,*::after{animation:none !important;transition:none !important}
+.card{opacity:1;transform:rotate(var(--r,0deg))}
+.gtk-title{transform:none}
+.reveal{opacity:1;filter:none;transform:none}
+.spark,.ring{display:none}
+.shiny{background:none;color:#4A2416}
+.shiny-light{background:none;color:#FBF3E6}
+}
+
+/* returning visitors (same tab): skip the intro straight away */
+.intro-seen .intro{display:none !important}
+.intro-seen .intro-on .hero,.intro-seen .intro-on .hero *{animation-play-state:running !important}

@@ -1,0 +1,202 @@
+body{margin:0}
+a{color:#4A2416}a:hover{color:#A3221F}
+.paper{background:#F5F2EA url(/images/paper-stripes.jpg) repeat;background-size:688px auto;color:#4A2416;font-family:'Newsreader',Georgia,serif;overflow-x:clip;padding:0 24px 120px}
+.serif{font-family:'Instrument Serif',Georgia,serif;font-weight:400}
+a:focus-visible{outline:3px solid #4A2416;outline-offset:6px;border-radius:14px}
+
+.crumbs{max-width:1180px;margin:0 auto;padding:28px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px}
+.back{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 20px 0 14px;border-radius:999px;background:#F6F1E6;box-shadow:0 0 0 2px #fff,0 10px 22px -16px rgba(74,36,22,.6);text-decoration:none;font-size:22px;color:#4A2416;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.back:hover{transform:translateX(-4px);color:#4A2416}
+.trail{list-style:none;margin:0;padding:10px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;border-radius:999px;background:rgba(251,248,240,.94);font-size:17px}
+.trail li{display:flex;align-items:center;gap:8px}
+.trail li+li::before{content:"/";color:#A3221F}
+.trail a{text-decoration:underline;text-decoration-color:rgba(74,36,22,.35);text-underline-offset:3px}
+.trail [aria-current]{font-weight:600}
+
+/* Header — hedgehog folder + stitched denim label */
+.head{max-width:1180px;margin:0 auto;padding:30px 0 52px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:20px 40px}
+.head-art{width:210px;height:auto;animation:popIn .9s cubic-bezier(.34,1.56,.64,1) both}
+.denim{margin:0;display:grid;place-items:center;width:min(780px,100%);aspect-ratio:780/236;box-sizing:border-box;padding:0 40px;background:url(/images/denim-label.png) center/100% 100% no-repeat;filter:drop-shadow(0 18px 22px rgba(46,62,96,.28));font-size:clamp(44px,5.3vw,78px);line-height:1;letter-spacing:.01em;color:#FFFDF6;text-shadow:0 2px 0 rgba(30,48,86,.45),0 0 18px rgba(30,48,86,.35);white-space:nowrap;animation:blurInT 1s cubic-bezier(.2,.8,.2,1) .15s both}
+
+/* Marquee (Magic UI) */
+.marquee{margin:0 -24px 84px;overflow:hidden;background:#F4BCC6;border-block:2px dashed rgba(255,255,255,.9);padding:16px 0}
+.marquee-track{display:flex;width:max-content;animation:marqueeX 36s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-group{display:flex;align-items:center;gap:26px;padding-right:26px;font-size:28px;color:#4A2416;white-space:nowrap}
+.marquee-group svg{width:15px;height:15px;fill:#A3221F;flex:none}
+
+/* FILE-DIVIDER INDEX — 7 overlapping bands, each with its own tab.
+   Pointing at a divider lifts it and slides every divider in front of it down by --D, so its skills show.
+   The last one opened (hover, click or keyboard) stays open. */
+.index{--T:62px;--S:26px;--D:96px;--B:calc(var(--S) + var(--D) + var(--T));list-style:none;max-width:1100px;margin:0 auto;padding:0 0 var(--D)}
+.dv{position:relative;margin-top:calc(var(--S) - var(--B));filter:drop-shadow(0 -8px 14px rgba(74,36,22,.14));transition:transform .7s cubic-bezier(.34,1.56,.64,1),margin .55s cubic-bezier(.2,.8,.2,1)}
+.dv:first-child{margin-top:0}
+.dv-h{margin:0;display:flex;align-items:flex-end;height:var(--T);padding:0 52px}
+.at-end .dv-h{justify-content:flex-end}
+.at-mid .dv-h{padding-left:27%}
+.dv-tab{position:relative;display:inline-flex;align-items:center;gap:14px;height:var(--T);margin:0;padding:0 34px;border:0;border-radius:26px 26px 0 0;background:var(--bg);color:var(--fg);font-size:26px;line-height:1;white-space:nowrap;cursor:pointer;transition:height .5s cubic-bezier(.34,1.56,.64,1),padding .55s cubic-bezier(.34,1.56,.64,1)}
+.dv-tab::before,.dv-tab::after{content:"";position:absolute;bottom:0;width:24px;height:24px;pointer-events:none}
+.dv-tab::before{left:-24px;background:radial-gradient(circle at 0 0,transparent 23.5px,var(--bg) 24px)}
+.dv-tab::after{right:-24px;background:radial-gradient(circle at 100% 0,transparent 23.5px,var(--bg) 24px)}
+.dv-n{display:inline-grid;place-items:center;min-width:38px;height:30px;padding:0 6px;box-sizing:border-box;border-radius:999px;background:rgba(255,255,255,.62);font-family:'Newsreader',Georgia,serif;font-size:15px;font-weight:600;letter-spacing:.04em;color:#7A3A2A}
+.dark .dv-n{background:rgba(251,246,234,.16);color:#F7D9A8}
+.dv-tab:focus-visible{outline:3px solid #A3221F;outline-offset:4px}
+.dv-band{height:var(--B);box-sizing:border-box;border-radius:24px 24px 0 0;background:var(--bg);color:var(--fg)}
+/* the front divider is the page you see first: its skills are always visible */
+.dv:last-child .dv-band{height:calc(var(--S) + var(--D) - 6px);border-radius:24px 24px 26px 26px;box-shadow:inset 0 0 0 2px #EFE4D2}
+.dv-body{padding:22px 52px 0;opacity:0;transform:translateY(-8px);transition:opacity .3s ease,transform .55s cubic-bezier(.2,.8,.2,1)}
+.chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px 12px}
+.chips li{display:inline-flex;align-items:center;min-height:42px;padding:0 18px;border-radius:999px;background:rgba(255,255,255,.66);box-shadow:0 0 0 1.5px rgba(74,36,22,.08);color:#3D2A1C;font-size:18px;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.dark .chips li{background:rgba(251,246,234,.12);box-shadow:0 0 0 1.5px rgba(251,246,234,.28);color:#FBF6EA}
+.chips li:hover{transform:translateY(-2px) scale(1.04)}
+
+/* resting state: the open divider (last one pointed at, clicked, or the default) shows its skills and pushes the dividers in front of it down */
+.dv.open{transform:translateY(-6px)}
+.dv.open .dv-body{opacity:1;transform:none}
+.dv.open ~ .dv{transform:translateY(var(--D))}
+.dv.open .dv-tab{padding:0 44px;height:calc(var(--T) + 12px)}
+/* while the pointer is on a divider, that divider wins straight away (no waiting for state) */
+.index:has(.dv:hover) .dv{transform:none}
+.index:has(.dv:hover) .dv .dv-body{opacity:0;transform:translateY(-8px)}
+.index:has(.dv:hover) .dv .dv-tab{padding:0 34px;height:var(--T)}
+.index:has(.dv:hover) .dv:hover{transform:translateY(-6px)}
+.index:has(.dv:hover) .dv:hover ~ .dv{transform:translateY(var(--D))}
+.index:has(.dv:hover) .dv:hover .dv-body{opacity:1;transform:none}
+.index:has(.dv:hover) .dv:hover .dv-tab{padding:0 44px;height:calc(var(--T) + 12px)}
+.index .dv:last-child .dv-body,.index:has(.dv:hover) .dv:last-child .dv-body{opacity:1;transform:none}
+/* skills bounce up one after another whenever their divider opens */
+.dv.open .chips li,.index:has(.dv:hover) .dv:hover .chips li,.dv:last-child .chips li{animation:chipPop .62s cubic-bezier(.34,1.56,.64,1) backwards;animation-delay:calc(.08s + var(--k,0) * .055s)}
+
+/* CERTIFICATE FOLDER (second half of the page) — closed: a big yellow folder with a lined sheet peeking out; open: the folder slides left,
+   its side tabs (Internship / Awards) pick which certificates show in the panel on the right */
+.cert-sec{margin:120px auto 0}
+.stage{--fw:560px;--fh:660px;position:relative;max-width:1392px;height:720px;margin:0 auto}
+.fwrap{position:absolute;top:24px;left:calc(50% - var(--fw) / 2 - 30px);width:var(--fw);height:var(--fh);transition:left .95s cubic-bezier(.34,1.3,.64,1)}
+.is-open .fwrap{left:0}
+.ffloat{position:absolute;inset:0;perspective:2200px;animation:folderBob 6s ease-in-out 1s infinite}
+.is-open .ffloat,.is-opening .ffloat{animation:none}
+.fpaper{position:absolute;z-index:0;top:26px;right:-50px;width:auto;height:600px;filter:drop-shadow(0 10px 14px rgba(74,36,22,.16));transition:transform .7s cubic-bezier(.34,1.56,.64,1),opacity .4s ease}
+.is-closed .fwrap:hover .fpaper{transform:translateX(38px) rotate(2.5deg)}
+.is-open .fpaper{transform:translateX(-90px);opacity:0}
+.fimg{position:absolute;z-index:2;left:50%;top:50%;width:var(--fh);height:var(--fw);transform:translate(-50%,-50%) rotate(90deg);pointer-events:none;filter:drop-shadow(0 26px 30px rgba(74,36,22,.22))}
+.patches{position:absolute;z-index:3;left:7%;top:5%;width:37%;height:auto;pointer-events:none;animation:popPatch .9s cubic-bezier(.34,1.56,.64,1) .35s both}
+.ftitle{position:absolute;z-index:3;left:0;width:100%;top:50%;margin:0;transform:translateY(-50%);text-align:center;font-size:70px;line-height:1;letter-spacing:.01em;color:#4A2416;pointer-events:none;animation:blurInC 1s cubic-bezier(.2,.8,.2,1) .2s both}
+.fopen{position:absolute;z-index:6;inset:0;border:0;padding:0;background:transparent;cursor:pointer;border-radius:46px}
+.fopen:focus-visible{outline:3px solid #A3221F;outline-offset:6px}
+.fhint{position:absolute;z-index:7;left:50%;bottom:44px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border:0;border-radius:999px;background:#FFFDF6;box-shadow:0 0 0 2px #fff,0 12px 22px -14px rgba(74,36,22,.55);font-size:21px;color:#4A2416;cursor:pointer;transition:opacity .3s ease,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.is-closed .fwrap:hover .fhint{transform:translateX(-50%) translateY(-4px)}
+.is-open .fopen,.is-open .fhint,.is-opening .fopen{display:none}
+.fhint:hover{background:#fff;color:#A3221F}
+.fhint:focus-visible{outline:3px solid #A3221F;outline-offset:4px}
+.is-opening .fhint{opacity:0;transform:translateX(-50%) translateY(10px);transition:opacity .25s ease,transform .3s ease}
+/* the front cover is its own layer: on "Open the folder" it swings open on its spine (left edge) and shows the paper inside */
+.fcover{position:absolute;z-index:3;left:0;top:0;width:83.1%;height:100%;transform-origin:0 50%;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.45,.05,.3,1)}
+.fc-front,.fc-back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.fc-front .cov{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.fc-back{transform:rotateY(180deg);border-radius:9% / 6.5%;background:linear-gradient(90deg,#F6EDAA,#F1E496 70%,#EADB86);box-shadow:inset -10px 0 18px -12px rgba(74,36,22,.3)}
+.finner{position:absolute;z-index:2;left:7%;top:5%;width:70%;height:89%;border-radius:6px;object-fit:fill;filter:drop-shadow(0 8px 12px rgba(74,36,22,.18));transition:transform .8s cubic-bezier(.34,1.3,.64,1)}
+.is-opening .fcover{transform:rotateY(-158deg);transition-duration:1s}
+.is-opening .finner{transform:translate(3%,-4%) rotate(-2.5deg) scale(1.03);transition-delay:.35s}
+.is-opening .fpaper{transform:translateX(90px) rotate(5deg)}
+
+/* side tabs (only while open): Internship sits on the folder's own tab, Awards is a second divider under it */
+.ftab{position:absolute;z-index:4;display:flex;align-items:center;justify-content:flex-end;border:0;margin:0;padding:0 14px 0 0;background:transparent;color:#4A2416;font-size:30px;line-height:1;cursor:pointer;opacity:0;visibility:hidden;transition:opacity .4s ease .5s,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.ftab span{writing-mode:vertical-rl;letter-spacing:.04em}
+.ftab.t-intern{left:84%;width:16%;top:1.5%;height:34%;border-radius:0 40px 40px 0}
+.ftab.t-awards{z-index:1;left:86%;width:14%;top:33%;height:37%;padding-right:12px;border-radius:0 46px 56px 0;background:linear-gradient(90deg,#EFE18C,#F8EEA8 40%,#F6EB9E);box-shadow:6px 10px 18px -12px rgba(74,36,22,.35)}
+.is-open .ftab{opacity:1;visibility:visible}
+.ftab:hover{transform:translateX(7px)}
+.ftab:focus-visible{outline:3px solid #A3221F;outline-offset:2px}
+.ftab[aria-pressed="true"] span{color:#A3221F;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px}
+
+/* right-hand panel */
+.panel{position:absolute;top:0;right:0;width:calc(100% - var(--fw) - 70px);height:100%;box-sizing:border-box;padding:30px 40px 26px;border-radius:30px;background:#F7F5F2;box-shadow:0 0 0 3px #fff,0 40px 70px -50px rgba(74,36,22,.6);opacity:0;visibility:hidden;transform:translateX(-38%) scale(.7) rotate(-3deg);transform-origin:0 50%;transition:opacity .45s ease,transform .8s cubic-bezier(.34,1.3,.64,1),visibility 0s .8s}
+.is-open .panel{opacity:1;visibility:visible;transform:none;transition:opacity .5s ease .3s,transform .8s cubic-bezier(.34,1.3,.64,1) .25s,visibility 0s}
+.close{position:absolute;top:22px;right:22px;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border:0;border-radius:999px;background:#FFFDF8;box-shadow:0 0 0 2px #EFE6D8;color:#4A2416;font:20px/1 'Instrument Serif',Georgia,serif;cursor:pointer;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.close:hover{transform:translateY(-2px);color:#A3221F}
+.close:focus-visible,.nav-btn:focus-visible,.dot:focus-visible{outline:3px solid #A3221F;outline-offset:3px}
+.pane{position:absolute;inset:30px 40px 26px;display:flex;flex-direction:column;align-items:center;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility 0s .35s}
+.show-intern .p-intern,.show-awards .p-awards{opacity:1;visibility:visible;transition:opacity .45s ease .1s,visibility 0s}
+.pill{margin:0;display:inline-flex;align-items:center;min-height:58px;padding:0 30px;border-radius:999px;background:#FBF2B6;box-shadow:0 0 0 3px #fff;font-size:34px;line-height:1;letter-spacing:.02em;color:#4A2416}
+.frame{position:relative;flex:1;width:100%;margin-top:26px;display:grid;place-items:center}
+.shot{position:relative;display:inline-block}
+.shot .cert{display:block;max-width:560px;max-height:440px;width:auto;height:auto;border-radius:16px;background:#fff;box-shadow:0 0 0 1px rgba(74,36,22,.06),0 26px 40px -26px rgba(74,36,22,.55)}
+.shot .clip{position:absolute;z-index:2;top:-40px;left:34px;width:62px;height:90px;transform-origin:50% 20%;animation:clipSwing 4.5s ease-in-out infinite}
+figure{margin:0}
+figcaption{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:18px;text-align:center;font-size:16.5px;color:#5A3627}
+figcaption strong{font-weight:400;font-size:25px;line-height:1.1;color:#4A2416}
+figcaption .cnt{font-size:14px;letter-spacing:.06em;color:#8A6555}
+.p-intern .frame{margin-top:40px}
+.slides{position:relative;width:100%;height:100%}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateX(40px) rotate(1.5deg);transition:opacity .35s ease,transform .6s cubic-bezier(.34,1.56,.64,1),visibility 0s .35s}
+.slide.on{opacity:1;visibility:visible;transform:none;transition:opacity .45s ease,transform .7s cubic-bezier(.34,1.56,.64,1),visibility 0s}
+.slide .cert{max-height:380px}
+.nav-btn{position:absolute;z-index:3;top:calc(50% - 50px);display:grid;place-items:center;width:52px;height:52px;border:0;border-radius:50%;background:#FFFDF8;box-shadow:0 0 0 2px #EFE6D8,0 12px 20px -14px rgba(74,36,22,.6);cursor:pointer;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.nav-btn.prev{left:-14px}
+.nav-btn.next{right:-14px}
+.nav-btn:hover{transform:scale(1.08)}
+.dots{display:flex;justify-content:center;gap:4px;margin-top:6px}
+.dot{width:44px;height:28px;border:0;padding:0;background:transparent;cursor:pointer;display:grid;place-items:center}
+.dot::before{content:"";width:10px;height:10px;border-radius:50%;background:#E3D6C3;transition:width .35s cubic-bezier(.34,1.56,.64,1),background .2s}
+.dot.on::before{width:28px;border-radius:999px;background:#A3221F}
+
+
+/* CONTACT footer — the Home page footer (tab, contact list, golden flower with "Orbiting Circles"), closing the last page of the folders */
+.site-foot{margin:128px -24px -120px}
+.contact-tab{display:inline-block;margin:0 0 0 24px;padding:24px 60px 18px;background:#A3221F;border-radius:24px 24px 0 0;font-size:36px;line-height:1}
+.shiny-light{display:block;background:linear-gradient(110deg,#FBF3E6 38%,#F4C04E 50%,#FBF3E6 62%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shineC 4s linear infinite}
+.contact-band{position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:32px;padding:48px 64px 60px 48px;background:#A3221F}
+.contact-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:18px}
+.contact-list li,.site-foot .flower-wrap{animation:footIn .8s cubic-bezier(.2,.8,.2,1) both;animation-timeline:view();animation-range:entry 0% entry 70%}
+.contact-list a{display:flex;align-items:center;gap:14px;min-height:44px;color:#FBF3E6;text-decoration:none;font-size:20px}
+.contact-list a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
+.contact-list a:focus-visible{outline:3px solid #FBF3E6;outline-offset:6px;border-radius:12px}
+.c-ico{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#FBF3E6;color:#A3221F;flex:none;transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.contact-list a:hover .c-ico{transform:scale(1.12) rotate(-10deg)}
+.flower-wrap{position:relative;width:168px;height:168px;display:grid;place-items:center}
+.flower{width:100%;height:auto;animation:spinF 40s linear infinite}
+.orbit{position:absolute;border-radius:50%;border:1px dashed rgba(251,243,230,.38);pointer-events:none;animation:spinF 14s linear infinite}
+.orbit.o1{inset:-16px}
+.orbit.o2{inset:-38px;animation-duration:22s;animation-direction:reverse}
+.orbit::before{content:"";position:absolute;top:-5px;left:calc(50% - 5px);width:10px;height:10px;border-radius:50%;background:#F4C04E;box-shadow:0 0 12px rgba(244,192,78,.85)}
+.orbit.o2::before{top:-4px;left:calc(50% - 4px);width:8px;height:8px;background:#FBF3E6;box-shadow:0 0 10px rgba(251,243,230,.8)}
+
+.pager{max-width:1180px;margin:72px auto 0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+.pg{display:inline-flex;align-items:center;gap:12px;min-height:52px;padding:0 24px;border-radius:999px;background:#F6F1E6;box-shadow:0 0 0 2px #fff,0 10px 22px -16px rgba(74,36,22,.6);text-decoration:none;font-size:24px;color:#4A2416;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.pg:hover{transform:translateY(-3px);color:#4A2416}
+
+@keyframes popIn{from{opacity:0;transform:scale(.6) rotate(-8deg)}to{opacity:1;transform:none}}
+@keyframes blurInT{from{opacity:0;filter:blur(10px) drop-shadow(0 18px 22px rgba(46,62,96,.28));transform:translateY(16px) rotate(-1.5deg)}to{opacity:1;filter:blur(0) drop-shadow(0 18px 22px rgba(46,62,96,.28));transform:none}}
+@keyframes marqueeX{to{transform:translateX(-50%)}}
+@keyframes folderBob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-10px) rotate(-.6deg)}}
+@keyframes popPatch{from{opacity:0;transform:scale(.6) rotate(-10deg)}to{opacity:1;transform:none}}
+@keyframes blurInC{from{opacity:0;filter:blur(10px);transform:translateY(calc(-50% + 16px))}to{opacity:1;filter:blur(0);transform:translateY(-50%)}}
+@keyframes clipSwing{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes spinF{to{transform:rotate(360deg)}}
+@keyframes shineC{from{background-position:130% 0}to{background-position:-130% 0}}
+@keyframes footIn{from{opacity:0;filter:blur(8px);transform:translateY(18px)}to{opacity:1;filter:blur(0);transform:none}}
+@keyframes chipPop{0%{opacity:0;transform:translateY(22px) scale(.6)}55%{opacity:1;transform:translateY(-6px) scale(1.08)}100%{opacity:1;transform:none}}
+
+@media (max-width:900px){
+.head{flex-direction:column}
+.head-art{width:160px}
+.denim{padding:0 24px}
+.marquee-group{font-size:22px}
+.index{--T:56px;--D:200px}
+.dv-h{padding:0 18px}
+.at-mid .dv-h{padding-left:18px}
+.at-end .dv-h{justify-content:flex-start;padding-left:18px}
+.dv-tab{font-size:19px;padding:0 18px;white-space:normal;text-align:left}
+.dv-body{padding:18px 18px 0}
+.chips li{font-size:16px}
+}
+@media (max-width:1100px){
+.stage{--fw:420px;--fh:495px;height:auto;min-height:560px}
+.ftitle{font-size:56px}
+.fpaper{height:450px;right:-36px}
+.is-open .fwrap{position:relative;left:0;margin:0 auto}
+.panel{position:relative;width:auto;height:640px;margin-top:40px}
+}
+@media (prefers-reduced-motion:reduce){
+*,*::before,*::after{animation:none !important;transition:none !important}
+}
