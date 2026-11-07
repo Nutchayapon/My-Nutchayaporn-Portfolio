@@ -43,27 +43,6 @@ src/
   styles/*.css                สไตล์ของแต่ละหน้า (ชื่อเดียวกับ component)
 ```
 
-## แก้เนื้อหาบ่อย ๆ ทำตรงไหน
-
-- **ข้อความ / โปรเจกต์ / รางวัล** → แก้ใน `src/components/pages/<หน้า>.jsx` (ค้นหาข้อความที่อยากแก้ได้เลย)
-- **เปลี่ยนรูป** → วางไฟล์ใหม่ใน `public/images/` แล้วแก้ชื่อไฟล์ใน `.jsx` (`src="/images/…"`)
-- **อัปเดต CV** → แทนที่ `public/cv/CV_Nutchayaporn_Kuntarosd.pdf` (ชื่อเดิม)
-- **สี / ขนาด / แอนิเมชัน** → แก้ใน `src/styles/<หน้า>.css`
-- **เพิ่มหน้าใหม่** → สร้าง `.jsx` + `.css` + ไฟล์ใน `src/pages/` แบบเดียวกับหน้าอื่น
-
-## ต้องทำก่อนเปิดเว็บจริง (TODO)
-
-1. **ลิงก์ LinkedIn / GitHub** ในหน้า Home ยังเป็น `href="#"` → แก้ใน `src/components/pages/Home.jsx` (มีคอมเมนต์ `TODO` กำกับไว้)
-2. หลัง deploy ครั้งแรก เปลี่ยน `site:` ใน `astro.config.mjs` เป็นลิงก์เว็บจริง (เพื่อให้รูปตอนแชร์ลิงก์ถูกต้อง)
-3. ตัดสินใจว่าจะแสดงเบอร์โทรในส่วน CONTACT ต่อสาธารณะหรือไม่
-
-## อัปขึ้น GitHub + Vercel
-
-1. GitHub Desktop → **File → Add local repository** (เลือกโฟลเดอร์นี้) → **Publish repository**
-   หรือใช้คำสั่ง: `git init && git add . && git commit -m "first version"` แล้ว push ขึ้น repo ใหม่
-2. vercel.com → **Add New → Project → Import** repo นี้ → Framework = Astro (ตรวจให้อัตโนมัติ) → **Deploy**
-3. ต่อจากนี้: แก้ไฟล์ → commit → push → Vercel อัปเดตเว็บให้เอง
-
 ## หมายเหตุทางเทคนิค
 
 - หน้าที่มีลูกเล่น (Home, Intro, Experience, Skills) ใช้ React แบบ `client:load`; หน้าอื่นเป็น HTML ล้วน ไม่มี JavaScript
